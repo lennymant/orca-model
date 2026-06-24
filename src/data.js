@@ -3,14 +3,28 @@
 // Logic:  load + fence-strip + parse + validate; serialise + download; version bumps
 // Outputs: data.{loadModel, saveModel, validateModel, bumpVersion}
 
-import { stripFences, log } from './utils.js';
+import { stripFences, log, slugify } from './utils.js';
 import { setModel, getModel } from './state.js';
 
-const MODEL_PATH = 'data/model.json';
+const MANIFEST_PATH = 'data/models.json';
 const REQUIRED_OBJECT_FIELDS = ['id', 'name', 'tier', 'priority'];
 
+// Fetch the model manifest listing every available model (one per client/project).
+// Shape: { default: "id", models: [{ id, name, client, file }] }
+export async function loadManifest(path = MANIFEST_PATH) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`failed to fetch ${path}: ${res.status}`);
+  const manifest = JSON.parse(stripFences(await res.text()));
+  if (!Array.isArray(manifest.models) || !manifest.models.length) {
+    throw new Error('manifest has no models');
+  }
+  log('log', `manifest: ${manifest.models.length} model(s)`);
+  return manifest;
+}
+
 // Fetch, strip fences, parse, validate, and push into state. Returns the model.
-export async function loadModel(path = MODEL_PATH) {
+// `path` is a model file from the manifest, e.g. 'data/gvs.json'.
+export async function loadModel(path) {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`failed to fetch ${path}: ${res.status}`);
   const raw = await res.text();
@@ -58,11 +72,12 @@ export function saveModel(model = getModel()) {
   const blob = new Blob([json], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
+  const filename = `${slugify(model.meta?.client) || 'model'}.json`;
   a.href = url;
-  a.download = 'model.json';
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
-  log('log', 'model.json exported');
+  log('log', `${filename} exported`);
 }
 
 // Bump semver. kind = 'patch' (data change) | 'minor' (schema shape change).

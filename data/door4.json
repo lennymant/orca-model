@@ -1,0 +1,382 @@
+{
+  "meta": {
+    "name": "Door4 Object Model",
+    "client": "Door4 Limited",
+    "version": "0.3.0",
+    "created": "2026-06-24",
+    "updated": "2026-06-24",
+    "notes": "Rebuilt from Door4 IA audit spreadsheet (v0.1, Darren Taylor). 8 objects, 14 relationships."
+  },
+  "objects": [
+    {
+      "id": "obj_service",
+      "name": "Service",
+      "tier": "Core",
+      "priority": "P0",
+      "description": "A Door4 capability offering — positioned under Reach, Convert, or Scale disciplines.",
+      "colour": "#2563EB",
+      "attributes": [
+        { "id": "attr_0001", "name": "Name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Slug", "type": "string", "required": true },
+        { "id": "attr_0003", "name": "Discipline", "type": "enum", "required": true, "notes": "Reach | Convert | Scale" },
+        { "id": "attr_0004", "name": "Description", "type": "text", "required": true },
+        { "id": "attr_0005", "name": "Outcomes", "type": "text", "required": false },
+        { "id": "attr_0006", "name": "Sector relevance", "type": "string", "required": false },
+        { "id": "attr_0007", "name": "Hero image", "type": "image", "required": false }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "Get a free review", "type": "book" },
+        { "id": "cta_0002", "label": "See our work", "type": "navigate" },
+        { "id": "cta_0003", "label": "Read related insights", "type": "navigate" }
+      ],
+      "examples": [
+        "Paid Search & Shopping (Reach)",
+        "Organic Search (Reach)",
+        "Paid Social (Reach)",
+        "Content Marketing (Reach)",
+        "Conversion Rate Optimisation (Convert)",
+        "Conversion-Centred Design (Convert)",
+        "User Research & Analysis (Convert)",
+        "Brand Storytelling (Convert)",
+        "Website Development (Scale)",
+        "E-commerce Development (Scale)",
+        "AI-Powered Automation (Scale)",
+        "Innovation Advisory (Scale)",
+        "MVP & GenAI Development (Scale)"
+      ]
+    },
+    {
+      "id": "obj_case_study",
+      "name": "Case Study",
+      "tier": "Trust",
+      "priority": "P0",
+      "description": "A proof-point story showing how Door4 delivered measurable outcomes for a client.",
+      "colour": "#059669",
+      "attributes": [
+        { "id": "attr_0001", "name": "Client name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Slug", "type": "string", "required": true },
+        { "id": "attr_0003", "name": "Challenge", "type": "text", "required": true },
+        { "id": "attr_0004", "name": "Approach", "type": "text", "required": true },
+        { "id": "attr_0005", "name": "Results", "type": "text", "required": true },
+        { "id": "attr_0006", "name": "Sector", "type": "string", "required": false },
+        { "id": "attr_0007", "name": "Year", "type": "number", "required": false },
+        { "id": "attr_0008", "name": "Featured image", "type": "image", "required": false },
+        { "id": "attr_0009", "name": "Permission granted", "type": "boolean", "required": true }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "Read case study", "type": "read" },
+        { "id": "cta_0002", "label": "Get similar results", "type": "book" }
+      ],
+      "examples": [
+        "Ego Power",
+        "Instagroup",
+        "Forbes PPC",
+        "Empress Mills"
+      ]
+    },
+    {
+      "id": "obj_insight",
+      "name": "Insight",
+      "tier": "Marketing",
+      "priority": "P1",
+      "description": "Editorial content — articles, Ask the Expert responses, Let's Talk interviews, and event playbacks. ~380 pages on current site.",
+      "colour": "#D97706",
+      "attributes": [
+        { "id": "attr_0001", "name": "Title", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Slug", "type": "string", "required": true },
+        { "id": "attr_0003", "name": "Body", "type": "text", "required": true },
+        { "id": "attr_0004", "name": "Published date", "type": "date", "required": true },
+        { "id": "attr_0005", "name": "Content format", "type": "enum", "required": true, "notes": "article | ask-the-expert | lets-talk | playback | interview" },
+        { "id": "attr_0006", "name": "Discipline stage", "type": "enum", "required": false, "notes": "Reach | Convert | Scale" },
+        { "id": "attr_0007", "name": "Topic tags", "type": "string", "required": false },
+        { "id": "attr_0008", "name": "Sector relevance", "type": "string", "required": false },
+        { "id": "attr_0009", "name": "Featured image", "type": "image", "required": false },
+        { "id": "attr_0010", "name": "Series", "type": "enum", "required": false, "notes": "Ask the Expert | Let's Talk | Decoding Digital | AI Lab | none" }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "Read", "type": "read" },
+        { "id": "cta_0002", "label": "Share", "type": "share" }
+      ],
+      "examples": [
+        "Ask the Expert: Are keywords still a thing?",
+        "Let's Talk: Nolo with John Logue",
+        "Decoding Digital: Chloe Sinclair playback",
+        "From SEO to GEO: preparing for AI search in 2026"
+      ]
+    },
+    {
+      "id": "obj_event",
+      "name": "Event",
+      "tier": "Brand",
+      "priority": "P1",
+      "description": "A Door4-run or Door4-attended event — Decoding Digital, AI Lab, Advantage AI, or external conference appearances.",
+      "colour": "#7C3AED",
+      "attributes": [
+        { "id": "attr_0001", "name": "Name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Date", "type": "date", "required": true },
+        { "id": "attr_0003", "name": "Location / format", "type": "string", "required": false },
+        { "id": "attr_0004", "name": "Virtual", "type": "boolean", "required": false },
+        { "id": "attr_0005", "name": "Series", "type": "enum", "required": false, "notes": "Decoding Digital | AI Lab | Advantage AI | other" },
+        { "id": "attr_0006", "name": "Status", "type": "enum", "required": true, "notes": "upcoming | past" },
+        { "id": "attr_0007", "name": "Registration URL", "type": "url", "required": false },
+        { "id": "attr_0008", "name": "Hero image", "type": "image", "required": false }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "Register", "type": "book" },
+        { "id": "cta_0002", "label": "Watch playback", "type": "navigate" }
+      ],
+      "examples": [
+        "Decoding Digital — November 2024",
+        "AI Lab — Manchester",
+        "Advantage AI — Leeds"
+      ]
+    },
+    {
+      "id": "obj_person",
+      "name": "Person",
+      "tier": "Trust",
+      "priority": "P1",
+      "description": "A named individual — Door4 team member, guest speaker, or interview subject.",
+      "colour": "#059669",
+      "attributes": [
+        { "id": "attr_0001", "name": "Full name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Role / title", "type": "string", "required": false },
+        { "id": "attr_0003", "name": "Department", "type": "string", "required": false },
+        { "id": "attr_0004", "name": "Photo", "type": "image", "required": false },
+        { "id": "attr_0005", "name": "Bio", "type": "text", "required": false },
+        { "id": "attr_0006", "name": "LinkedIn URL", "type": "url", "required": false },
+        { "id": "attr_0007", "name": "Person type", "type": "enum", "required": true, "notes": "team | guest-speaker | interview-subject | external-contributor" },
+        { "id": "attr_0008", "name": "Active", "type": "boolean", "required": false }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "View profile", "type": "navigate" },
+        { "id": "cta_0002", "label": "Read their insights", "type": "navigate" }
+      ],
+      "examples": [
+        "Leon Calverley — Innovation Director",
+        "Sean Dwyer — Managing Director",
+        "Tom Morton — Head of Activation"
+      ]
+    },
+    {
+      "id": "obj_resource",
+      "name": "Resource",
+      "tier": "Conversion",
+      "priority": "P1",
+      "description": "A downloadable or interactive asset — ebooks, reports, tools, and calculators. Gated or open.",
+      "colour": "#DC2626",
+      "attributes": [
+        { "id": "attr_0001", "name": "Title", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Format", "type": "enum", "required": true, "notes": "ebook | report | tool | calculator | template" },
+        { "id": "attr_0003", "name": "Gated", "type": "boolean", "required": true },
+        { "id": "attr_0004", "name": "Download URL / tool URL", "type": "url", "required": true },
+        { "id": "attr_0005", "name": "Topic", "type": "string", "required": false },
+        { "id": "attr_0006", "name": "Year", "type": "number", "required": false },
+        { "id": "attr_0007", "name": "Thumbnail", "type": "image", "required": false }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "Download", "type": "download" },
+        { "id": "cta_0002", "label": "Try the tool", "type": "navigate" }
+      ],
+      "examples": [
+        "LLM Visibility Report (gated)",
+        "Decoding GA4 Ebook (gated)",
+        "LLM Visibility Checker (free tool)",
+        "Content Calendar Tool (free tool)",
+        "E-EAT Analyser (free tool)"
+      ]
+    },
+    {
+      "id": "obj_sector",
+      "name": "Sector",
+      "tier": "Core",
+      "priority": "P1",
+      "description": "A target market or industry vertical Door4 specialises in — used to contextualise Services and Case Studies.",
+      "colour": "#2563EB",
+      "attributes": [
+        { "id": "attr_0001", "name": "Name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Slug", "type": "string", "required": true },
+        { "id": "attr_0003", "name": "Audience description", "type": "text", "required": false },
+        { "id": "attr_0004", "name": "Primary sector", "type": "boolean", "required": false, "notes": "true = Home & Garden (primary audience)" }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "See sector work", "type": "navigate" },
+        { "id": "cta_0002", "label": "Get a free review", "type": "book" }
+      ],
+      "examples": [
+        "Home & Garden (primary)",
+        "B2B",
+        "B2C / E-commerce",
+        "Automotive",
+        "Tech",
+        "Family"
+      ]
+    },
+    {
+      "id": "obj_review_offer",
+      "name": "Review Offer",
+      "tier": "Conversion",
+      "priority": "P0",
+      "description": "A free audit or review offer — the primary conversion surface across Door4 services. Replaces scattered /go/ landing pages.",
+      "colour": "#DC2626",
+      "attributes": [
+        { "id": "attr_0001", "name": "Offer name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "What's included", "type": "text", "required": true },
+        { "id": "attr_0003", "name": "Service area", "type": "enum", "required": true, "notes": "Reach | Convert | Scale | General" },
+        { "id": "attr_0004", "name": "Form / booking URL", "type": "url", "required": true },
+        { "id": "attr_0005", "name": "Active", "type": "boolean", "required": true }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "Get my free review", "type": "book" }
+      ],
+      "examples": [
+        "Free PPC Review (Reach)",
+        "Free Search Review (Reach)",
+        "Free Conversion Review (Convert)",
+        "Free Performance Review for Home & Garden Brands (General)"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_0001",
+      "from": "obj_service",
+      "to": "obj_sector",
+      "type": "targets",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "relevant to",
+      "inverse_label": "served by"
+    },
+    {
+      "id": "rel_0002",
+      "from": "obj_case_study",
+      "to": "obj_service",
+      "type": "demonstrates",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "demonstrates",
+      "inverse_label": "evidenced by"
+    },
+    {
+      "id": "rel_0003",
+      "from": "obj_case_study",
+      "to": "obj_sector",
+      "type": "belongs_to",
+      "cardinality": "many-to-one",
+      "direction": "reference",
+      "label": "in sector",
+      "inverse_label": "has case studies"
+    },
+    {
+      "id": "rel_0004",
+      "from": "obj_insight",
+      "to": "obj_service",
+      "type": "supports",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "supports",
+      "inverse_label": "supported by"
+    },
+    {
+      "id": "rel_0005",
+      "from": "obj_insight",
+      "to": "obj_person",
+      "type": "authored_by",
+      "cardinality": "many-to-one",
+      "direction": "ownership",
+      "label": "authored by",
+      "inverse_label": "authored"
+    },
+    {
+      "id": "rel_0006",
+      "from": "obj_insight",
+      "to": "obj_event",
+      "type": "playback_of",
+      "cardinality": "one-to-one",
+      "direction": "reference",
+      "label": "playback of",
+      "inverse_label": "has playback"
+    },
+    {
+      "id": "rel_0007",
+      "from": "obj_event",
+      "to": "obj_person",
+      "type": "features",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "features speaker",
+      "inverse_label": "spoke at"
+    },
+    {
+      "id": "rel_0008",
+      "from": "obj_event",
+      "to": "obj_service",
+      "type": "promotes",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "promotes",
+      "inverse_label": "promoted via"
+    },
+    {
+      "id": "rel_0009",
+      "from": "obj_resource",
+      "to": "obj_service",
+      "type": "supports",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "supports",
+      "inverse_label": "has resources"
+    },
+    {
+      "id": "rel_0010",
+      "from": "obj_resource",
+      "to": "obj_insight",
+      "type": "referenced_by",
+      "cardinality": "one-to-many",
+      "direction": "reference",
+      "label": "referenced in",
+      "inverse_label": "references resource"
+    },
+    {
+      "id": "rel_0011",
+      "from": "obj_review_offer",
+      "to": "obj_service",
+      "type": "belongs_to",
+      "cardinality": "many-to-one",
+      "direction": "parent-child",
+      "label": "entry point for",
+      "inverse_label": "has review offer"
+    },
+    {
+      "id": "rel_0012",
+      "from": "obj_review_offer",
+      "to": "obj_sector",
+      "type": "targets",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "targets",
+      "inverse_label": "targeted by"
+    },
+    {
+      "id": "rel_0013",
+      "from": "obj_insight",
+      "to": "obj_sector",
+      "type": "relevant_to",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "relevant to",
+      "inverse_label": "has insights"
+    },
+    {
+      "id": "rel_0014",
+      "from": "obj_person",
+      "to": "obj_service",
+      "type": "specialises_in",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "specialises in",
+      "inverse_label": "delivered by"
+    }
+  ]
+}

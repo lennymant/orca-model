@@ -75,6 +75,11 @@
       font-size: 13px;
     }
     #nav button.is-active { background: var(--colour-accent); color: var(--colour-on-accent); border-color: var(--colour-accent); font-weight: 600; }
+    #model-select {
+      background: var(--colour-bg); color: var(--colour-text);
+      border: 1px solid var(--colour-border); border-radius: var(--radius-md);
+      padding: 6px 10px; font-size: 13px; cursor: pointer; margin-right: 8px;
+    }
     #nav button.action { color: var(--colour-text); }
     #nav button:hover { color: var(--colour-text); }
 
@@ -193,6 +198,7 @@
 <body>
   <nav id="nav">
     <span class="brand">OOUX Model Tool <small id="model-name"></small></span>
+    <select id="model-select" title="Switch model"></select>
     <button id="tab-canvas" class="is-active">Canvas</button>
     <button id="tab-cards">Cards</button>
     <button id="btn-new" class="action">+ New Object</button>
@@ -205,12 +211,12 @@
   </main>
 
   <script type="module">
-    // main — bootstraps the app: load model, init views, wire nav
-    import { loadModel, saveModel } from './src/data.js';
+    // main — bootstraps the app: load manifest + model, init views, wire nav
+    import { loadManifest, loadModel, saveModel } from './src/data.js';
     import * as canvas from './src/canvas.js';
     import * as cards from './src/cards.js';
     import * as crud from './src/crud.js';
-    import { getModel } from './src/state.js';
+    import * as state from './src/state.js';
     import { log } from './src/utils.js';
 
     const views = {
@@ -221,6 +227,7 @@
       canvas: document.getElementById('tab-canvas'),
       cards: document.getElementById('tab-cards'),
     };
+    const select = document.getElementById('model-select');
 
     function switchView(name) {
       Object.entries(views).forEach(([k, el]) => { el.hidden = k !== name; });
@@ -232,18 +239,44 @@
     document.getElementById('btn-new').onclick = () => crud.open(null);
     document.getElementById('btn-export').onclick = () => saveModel();
 
+    function entryFor(manifest, id) {
+      return manifest.models.find((m) => m.id === id) || manifest.models[0];
+    }
+
+    // Load a model by manifest entry; views re-render via state:model-updated.
+    async function applyModel(entry) {
+      const model = await loadModel(entry.file);
+      document.getElementById('model-name').textContent = `— ${model.meta.client}`;
+      return model;
+    }
+
     (async function start() {
       try {
-        const model = await loadModel();
-        document.getElementById('model-name').textContent = `— ${model.meta.client}`;
+        const manifest = await loadManifest();
+        manifest.models.forEach((m) => {
+          const opt = document.createElement('option');
+          opt.value = m.id;
+          opt.textContent = m.name;
+          select.appendChild(opt);
+        });
+        const startId = manifest.default || manifest.models[0].id;
+        select.value = startId;
+
+        const model = await applyModel(entryFor(manifest, startId));
         canvas.init(document.getElementById('graph-canvas'), model);
         cards.init(views.cards, model);
         crud.init(document.getElementById('panel-crud'));
         switchView('canvas');
+
+        select.onchange = async () => {
+          crud.close();
+          state.select(null);
+          await applyModel(entryFor(manifest, select.value));
+        };
       } catch (err) {
         log('error', 'startup failed', err);
         document.body.insertAdjacentHTML('afterbegin',
-          `<pre style="color:#ef4444;padding:16px">Failed to load model.json — serve over http(s), not file://.\n${err}</pre>`);
+          `<pre style="color:#ef4444;padding:16px">Failed to load models — serve over http(s), not file://.\n${err}</pre>`);
       }
     })();
   </script>

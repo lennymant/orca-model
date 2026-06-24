@@ -1,9 +1,26 @@
 # Rule: Data Schema
 
-## File
-`data/model.json` — single source of truth. Loaded once at startup by `src/data.js`.
+## Files
+The tool holds **one model per client/project**, each in its own file under `data/`
+(e.g. `data/gvs.json`, `data/door4.json`). A manifest enumerates them.
 
-## Top-Level Shape
+### Manifest — `data/models.json`
+Loaded once at startup by `src/data.js`; drives the model `<select>` in the nav.
+```json
+{
+  "default": "gvs",
+  "models": [
+    { "id": "gvs",   "name": "GVS Object Model",   "client": "Global View Systems", "file": "data/gvs.json" },
+    { "id": "door4", "name": "Door4 Object Model", "client": "Door4",               "file": "data/door4.json" }
+  ]
+}
+```
+- `default` — id of the model loaded on startup (falls back to first entry).
+- Each model file is the single source of truth for that client; switching the
+  select calls `loadModel(file)` → `state.setModel()` → all views re-render.
+- To add a client: drop a new `data/<id>.json` and add a manifest entry.
+
+## Top-Level Shape (each model file)
 ```json
 {
   "meta": {
@@ -85,7 +102,7 @@
 - Always update `meta.updated` on any save
 
 ## data.js Responsibilities
-- Load and parse `model.json` on startup
+- Load the manifest (`loadManifest`) and a chosen model file (`loadModel(file)`) on startup
 - Strip markdown fences before `JSON.parse()` (Claude API responses may add them)
 - Validate: check `meta.version` exists; warn to console if schema fields are missing
 - Expose: `getModel()`, `getObjects()`, `getRelationships()`, `getObjectById(id)`

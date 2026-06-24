@@ -1,0 +1,17 @@
+{
+  "default": "gvs",
+  "models": [
+    {
+      "id": "gvs",
+      "name": "GVS Object Model",
+      "client": "Global View Systems",
+      "file": "data/gvs.json"
+    },
+    {
+      "id": "door4",
+      "name": "Door4 Object Model",
+      "client": "Door4",
+      "file": "data/door4.json"
+    }
+  ]
+}
