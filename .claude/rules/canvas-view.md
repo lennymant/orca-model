@@ -62,9 +62,18 @@
 - Conversion: `#DC2626`
 - Compliance: `#6B7280`
 
+## Examples dock (foot of canvas)
+- Toggled by a **"Show examples"** checkbox in the **nav** (top bar), off by default.
+- When on, an overlay docks to the bottom of the canvas view showing a grid of small
+  cards — one per object type that has `examples` — each listing that type's example
+  instances as chips. Coloured top border per `object.colour`.
+- Re-renders on model change while visible. Hidden when the Cards view is active
+  (the dock lives inside `#view-canvas`).
+
 ## canvas.js Responsibilities
 - `init(canvasEl, model)` — set up canvas, run simulation, render loop
 - `update(model)` — diff model, update nodes/edges, restart simulation gently (alpha 0.3)
 - `getSelectedId()` — return currently selected object id or null
 - `setHighlight(id)` — highlight a node programmatically (called from cards.js selection)
+- `setExamplesVisible(bool)` — show/hide the examples dock (called from the nav checkbox)
 - Listen for state events: `state:model-updated` → call `update()`

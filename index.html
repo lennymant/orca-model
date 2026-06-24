@@ -80,6 +80,11 @@
       border: 1px solid var(--colour-border); border-radius: var(--radius-md);
       padding: 6px 10px; font-size: 13px; cursor: pointer; margin-right: 8px;
     }
+    #examples-toggle {
+      display: flex; align-items: center; gap: 5px; font-size: 13px;
+      color: var(--colour-text-muted); cursor: pointer; padding: 0 4px;
+    }
+    #examples-toggle:hover { color: var(--colour-text); }
     #nav button.action { color: var(--colour-text); }
     #nav button:hover { color: var(--colour-text); }
 
@@ -106,6 +111,27 @@
       position: absolute; pointer-events: none; z-index: 5;
       background: #000; color: #fff; font-size: 12px;
       padding: 4px 8px; border-radius: var(--radius-sm); white-space: nowrap;
+    }
+    .canvas-examples {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+      max-height: 42%; overflow-y: auto;
+      background: rgba(26, 27, 40, 0.95); /* --midnight-dark */
+      border-top: 1px solid var(--colour-border); padding: 10px 14px;
+    }
+    .examples-head {
+      font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--colour-text-muted); margin-bottom: 8px;
+    }
+    .examples-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+    .example-card {
+      background: var(--colour-surface); border: 1px solid var(--colour-border);
+      border-top: 3px solid var(--card-colour); border-radius: var(--radius-md); padding: 8px 10px;
+    }
+    .example-card h5 { margin: 0 0 6px; font-size: 12px; color: var(--colour-text); }
+    .example-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+    .example-chip {
+      font-size: 11px; padding: 2px 7px; border-radius: 999px;
+      background: var(--colour-bg); border: 1px solid var(--colour-border); color: var(--colour-text-muted);
     }
 
     /* --- Cards view --- */
@@ -202,6 +228,7 @@
     <select id="model-select" title="Switch model"></select>
     <button id="tab-canvas" class="is-active">Canvas</button>
     <button id="tab-cards">Cards</button>
+    <label id="examples-toggle"><input type="checkbox" id="chk-examples"> Show examples</label>
     <button id="btn-new" class="action">+ New Object</button>
     <button id="btn-export" class="action">Export JSON</button>
   </nav>
@@ -239,6 +266,8 @@
     tabs.cards.onclick = () => switchView('cards');
     document.getElementById('btn-new').onclick = () => crud.open(null);
     document.getElementById('btn-export').onclick = () => saveModel();
+    const chkExamples = document.getElementById('chk-examples');
+    chkExamples.onchange = () => canvas.setExamplesVisible(chkExamples.checked);
 
     function entryFor(manifest, id) {
       return manifest.models.find((m) => m.id === id) || manifest.models[0];

@@ -26,6 +26,7 @@ let hiddenTiers = new Set();
 let showEdgeLabels = true;
 let shaderOn = false;       // "shade by connection generation" toggle
 let shadeAlpha = null;      // Map<id, alpha> when shading active, else null
+let examplesVisible = false; // "show examples" dock at foot of canvas
 const view = { x: 0, y: 0, k: 1 };
 const drag = { node: null, panning: false, moved: false, lastX: 0, lastY: 0 };
 
@@ -38,6 +39,7 @@ export function init(canvasEl, model) {
   state.on('state:model-updated', () => update());
   state.on('object:selected', (p) => setHighlight(p?.id));
   buildControls();
+  buildExamplesDock();
   update(model);
 }
 
@@ -45,6 +47,16 @@ export function update() {
   buildGraph();
   startSimulation(0.6);
   computeShade();
+  if (examplesVisible) renderExamples();
+}
+
+// Toggle the examples dock (called from the nav "Show examples" checkbox).
+export function setExamplesVisible(visible) {
+  examplesVisible = visible;
+  const dock = document.getElementById('canvas-examples');
+  if (!dock) return;
+  dock.hidden = !visible;
+  if (visible) renderExamples();
 }
 
 export function getSelectedId() {
@@ -354,6 +366,50 @@ function shaderToggle() {
   box.onchange = () => { shaderOn = box.checked; computeShade(); };
   label.append(box, document.createTextNode('Shade by connection'));
   return label;
+}
+
+// --- Examples dock (foot of canvas) ------------------------------------------
+
+function buildExamplesDock() {
+  const dock = document.createElement('div');
+  dock.id = 'canvas-examples';
+  dock.className = 'canvas-examples';
+  dock.hidden = true;
+  canvas.parentElement.appendChild(dock);
+}
+
+// Grid of small cards: one per object type that has example instances.
+function renderExamples() {
+  const dock = document.getElementById('canvas-examples');
+  if (!dock) return;
+  dock.innerHTML = '';
+  const head = document.createElement('div');
+  head.className = 'examples-head';
+  const withEx = state.getObjects().filter((o) => o.examples && o.examples.length);
+  head.textContent = withEx.length ? 'Examples by object type' : 'No examples defined yet';
+  dock.appendChild(head);
+  const grid = document.createElement('div');
+  grid.className = 'examples-grid';
+  withEx.forEach((o) => grid.appendChild(exampleCard(o)));
+  dock.appendChild(grid);
+}
+
+function exampleCard(o) {
+  const card = document.createElement('div');
+  card.className = 'example-card';
+  card.style.setProperty('--card-colour', o.colour || '#2563EB');
+  const h = document.createElement('h5');
+  h.textContent = o.name;
+  const chips = document.createElement('div');
+  chips.className = 'example-chips';
+  o.examples.forEach((ex) => {
+    const chip = document.createElement('span');
+    chip.className = 'example-chip';
+    chip.textContent = ex;
+    chips.appendChild(chip);
+  });
+  card.append(h, chips);
+  return card;
 }
 
 function tierFilter() {
