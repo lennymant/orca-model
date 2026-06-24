@@ -1,0 +1,926 @@
+{
+  "meta": {
+    "name": "GVS Object Model",
+    "client": "Global View Systems",
+    "version": "0.2.0",
+    "created": "2026-06-24",
+    "updated": "2026-06-24"
+  },
+  "objects": [
+    {
+      "id": "obj_sector",
+      "name": "Sector",
+      "tier": "Core",
+      "priority": "P0",
+      "description": "An industry vertical GVS serves. Top of the navigation hierarchy.",
+      "colour": "#2563EB",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Slug",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Summary",
+          "type": "text",
+          "required": false
+        },
+        {
+          "id": "attr_0004",
+          "name": "Hero image",
+          "type": "image",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Explore sector",
+          "type": "navigate"
+        },
+        {
+          "id": "cta_0002",
+          "label": "Book a demo",
+          "type": "book"
+        }
+      ],
+      "examples": [
+        "Healthcare",
+        "Retail",
+        "Manufacturing",
+        "Public Sector"
+      ]
+    },
+    {
+      "id": "obj_solution",
+      "name": "Solution",
+      "tier": "Core",
+      "priority": "P0",
+      "description": "A GVS product or service offering positioned against use cases.",
+      "colour": "#2563EB",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Slug",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Tagline",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": "attr_0004",
+          "name": "Overview",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0005",
+          "name": "Hero image",
+          "type": "image",
+          "required": false
+        },
+        {
+          "id": "attr_0006",
+          "name": "Brochure",
+          "type": "url",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Request a demo",
+          "type": "book"
+        },
+        {
+          "id": "cta_0002",
+          "label": "Download brochure",
+          "type": "download"
+        }
+      ],
+      "examples": [
+        "Fleet Tracker",
+        "Asset Monitor",
+        "Compliance Suite"
+      ]
+    },
+    {
+      "id": "obj_solution_feature",
+      "name": "Solution Feature",
+      "tier": "Core",
+      "priority": "P1",
+      "description": "A discrete capability that composes a Solution.",
+      "colour": "#2563EB",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Description",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Icon",
+          "type": "image",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Learn more",
+          "type": "read"
+        }
+      ],
+      "examples": [
+        "Real-time GPS",
+        "Geofencing",
+        "Automated Alerts"
+      ]
+    },
+    {
+      "id": "obj_use_case",
+      "name": "Use Case",
+      "tier": "Core",
+      "priority": "P1",
+      "description": "A real-world problem a Solution addresses.",
+      "colour": "#2563EB",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Scenario",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Outcome",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "See use case",
+          "type": "navigate"
+        }
+      ],
+      "examples": [
+        "Reduce fuel costs",
+        "Prove SLA compliance",
+        "Cut idle time"
+      ]
+    },
+    {
+      "id": "obj_case_study",
+      "name": "Case Study",
+      "tier": "Core",
+      "priority": "P0",
+      "description": "A proof-point story of a Solution delivering outcomes for a client.",
+      "colour": "#2563EB",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Client name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Challenge",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0004",
+          "name": "Result",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0005",
+          "name": "Published",
+          "type": "date",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Read case study",
+          "type": "read"
+        },
+        {
+          "id": "cta_0002",
+          "label": "Share",
+          "type": "share"
+        }
+      ],
+      "examples": [
+        "Acme Logistics rollout",
+        "NHS Trust deployment"
+      ]
+    },
+    {
+      "id": "obj_person",
+      "name": "Person",
+      "tier": "Trust",
+      "priority": "P1",
+      "description": "A named individual — team member, author, or quoted expert.",
+      "colour": "#059669",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Full name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Role",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": "attr_0003",
+          "name": "Photo",
+          "type": "image",
+          "required": false
+        },
+        {
+          "id": "attr_0004",
+          "name": "Bio",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "View profile",
+          "type": "navigate"
+        }
+      ],
+      "examples": [
+        "Jane Doe (CEO)",
+        "Mark Lee (CTO)",
+        "Priya Shah (Head of Product)"
+      ]
+    },
+    {
+      "id": "obj_partner",
+      "name": "Partner",
+      "tier": "Trust",
+      "priority": "P1",
+      "description": "An organisation GVS partners with for delivery or technology.",
+      "colour": "#059669",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Logo",
+          "type": "image",
+          "required": false
+        },
+        {
+          "id": "attr_0003",
+          "name": "Website",
+          "type": "url",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Visit partner",
+          "type": "external"
+        }
+      ],
+      "examples": [
+        "AWS",
+        "Vodafone IoT",
+        "Microsoft Azure"
+      ]
+    },
+    {
+      "id": "obj_certification",
+      "name": "Certification",
+      "tier": "Trust",
+      "priority": "P2",
+      "description": "An accreditation or standard a Solution complies with.",
+      "colour": "#059669",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Issuing body",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": "attr_0003",
+          "name": "Valid until",
+          "type": "date",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "View certificate",
+          "type": "download"
+        }
+      ],
+      "examples": [
+        "ISO 27001",
+        "SOC 2 Type II",
+        "Cyber Essentials Plus"
+      ]
+    },
+    {
+      "id": "obj_testimonial",
+      "name": "Testimonial",
+      "tier": "Trust",
+      "priority": "P1",
+      "description": "A quoted endorsement attributed to a Person.",
+      "colour": "#059669",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Quote",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Rating",
+          "type": "number",
+          "required": false
+        }
+      ],
+      "ctas": [],
+      "examples": [
+        "Cut our fuel bill 18%",
+        "Flawless onboarding experience"
+      ]
+    },
+    {
+      "id": "obj_award_programme",
+      "name": "Award Programme",
+      "tier": "Brand",
+      "priority": "P1",
+      "description": "A recurring awards scheme run or sponsored by GVS.",
+      "colour": "#7C3AED",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Description",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "About the programme",
+          "type": "read"
+        }
+      ],
+      "examples": [
+        "GVS Innovation Awards",
+        "Fleet Excellence Awards"
+      ]
+    },
+    {
+      "id": "obj_award_edition",
+      "name": "Award Edition",
+      "tier": "Brand",
+      "priority": "P2",
+      "description": "A single year/instance of an Award Programme.",
+      "colour": "#7C3AED",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Year",
+          "type": "number",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Theme",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": "attr_0003",
+          "name": "Open date",
+          "type": "date",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Enter now",
+          "type": "create"
+        }
+      ],
+      "examples": [
+        "2025 Edition",
+        "2026 Edition"
+      ]
+    },
+    {
+      "id": "obj_sponsor",
+      "name": "Sponsor",
+      "tier": "Brand",
+      "priority": "P2",
+      "description": "An organisation funding an Award Edition.",
+      "colour": "#7C3AED",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Tier",
+          "type": "enum",
+          "required": false,
+          "notes": "gold | silver | bronze"
+        },
+        {
+          "id": "attr_0003",
+          "name": "Logo",
+          "type": "image",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Become a sponsor",
+          "type": "book"
+        }
+      ],
+      "examples": [
+        "TechCorp (Gold)",
+        "DataFlow (Silver)",
+        "NetEdge (Bronze)"
+      ]
+    },
+    {
+      "id": "obj_article",
+      "name": "Article",
+      "tier": "Marketing",
+      "priority": "P1",
+      "description": "An editorial or thought-leadership piece.",
+      "colour": "#D97706",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Body",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Published",
+          "type": "date",
+          "required": false
+        },
+        {
+          "id": "attr_0004",
+          "name": "Featured image",
+          "type": "image",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Read article",
+          "type": "read"
+        }
+      ],
+      "examples": [
+        "The future of fleet IoT",
+        "5 ways to cut fleet emissions"
+      ]
+    },
+    {
+      "id": "obj_event",
+      "name": "Event",
+      "tier": "Marketing",
+      "priority": "P1",
+      "description": "A webinar, conference, or in-person session.",
+      "colour": "#D97706",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Location",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": "attr_0004",
+          "name": "Virtual",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Register",
+          "type": "book"
+        }
+      ],
+      "examples": [
+        "Webinar: IoT in 2026",
+        "GVS Summit London"
+      ]
+    },
+    {
+      "id": "obj_audience_persona",
+      "name": "Audience / Persona",
+      "tier": "Marketing",
+      "priority": "P2",
+      "description": "A target audience segment used to shape messaging.",
+      "colour": "#D97706",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Goals",
+          "type": "text",
+          "required": false
+        },
+        {
+          "id": "attr_0003",
+          "name": "Pain points",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "ctas": [],
+      "examples": [
+        "Operations Director",
+        "IT Procurement Lead",
+        "Fleet Manager"
+      ]
+    },
+    {
+      "id": "obj_booking",
+      "name": "Booking",
+      "tier": "Conversion",
+      "priority": "P0",
+      "description": "A demo or consultation request submitted by a prospect.",
+      "colour": "#DC2626",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Contact name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Email",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Preferred date",
+          "type": "date",
+          "required": false
+        },
+        {
+          "id": "attr_0004",
+          "name": "Confirmed",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "Confirm booking",
+          "type": "edit"
+        }
+      ],
+      "examples": [
+        "Demo request #1024",
+        "Consultation #1187"
+      ]
+    },
+    {
+      "id": "obj_faq",
+      "name": "FAQ",
+      "tier": "Conversion",
+      "priority": "P2",
+      "description": "A question/answer pair attached to a Solution.",
+      "colour": "#DC2626",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Question",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Answer",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "ctas": [],
+      "examples": [
+        "Is my data encrypted?",
+        "What is the uptime SLA?"
+      ]
+    },
+    {
+      "id": "obj_policy_legal",
+      "name": "Policy / Legal",
+      "tier": "Compliance",
+      "priority": "P2",
+      "description": "A privacy, terms, or compliance document.",
+      "colour": "#6B7280",
+      "attributes": [
+        {
+          "id": "attr_0001",
+          "name": "Title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "attr_0002",
+          "name": "Body",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "attr_0003",
+          "name": "Effective date",
+          "type": "date",
+          "required": false
+        }
+      ],
+      "ctas": [
+        {
+          "id": "cta_0001",
+          "label": "View document",
+          "type": "read"
+        }
+      ],
+      "examples": [
+        "Privacy Policy",
+        "Terms of Service",
+        "Cookie Policy"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_0001",
+      "from": "obj_sector",
+      "to": "obj_solution",
+      "type": "contains",
+      "cardinality": "one-to-many",
+      "direction": "parent-child",
+      "label": "contains",
+      "inverse_label": "belongs to"
+    },
+    {
+      "id": "rel_0002",
+      "from": "obj_solution",
+      "to": "obj_solution_feature",
+      "type": "composed_of",
+      "cardinality": "one-to-many",
+      "direction": "composition",
+      "label": "composed of",
+      "inverse_label": "part of"
+    },
+    {
+      "id": "rel_0003",
+      "from": "obj_solution",
+      "to": "obj_use_case",
+      "type": "addresses",
+      "cardinality": "one-to-many",
+      "direction": "reference",
+      "label": "addresses",
+      "inverse_label": "addressed by"
+    },
+    {
+      "id": "rel_0004",
+      "from": "obj_case_study",
+      "to": "obj_solution",
+      "type": "references",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "proves",
+      "inverse_label": "evidenced by"
+    },
+    {
+      "id": "rel_0005",
+      "from": "obj_case_study",
+      "to": "obj_person",
+      "type": "features",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "features",
+      "inverse_label": "featured in"
+    },
+    {
+      "id": "rel_0006",
+      "from": "obj_person",
+      "to": "obj_partner",
+      "type": "belongs_to",
+      "cardinality": "many-to-one",
+      "direction": "ownership",
+      "label": "works for",
+      "inverse_label": "employs"
+    },
+    {
+      "id": "rel_0007",
+      "from": "obj_testimonial",
+      "to": "obj_person",
+      "type": "attributed_to",
+      "cardinality": "one-to-one",
+      "direction": "reference",
+      "label": "attributed to",
+      "inverse_label": "gave"
+    },
+    {
+      "id": "rel_0008",
+      "from": "obj_certification",
+      "to": "obj_solution",
+      "type": "certifies",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "certifies",
+      "inverse_label": "certified by"
+    },
+    {
+      "id": "rel_0009",
+      "from": "obj_award_programme",
+      "to": "obj_award_edition",
+      "type": "contains",
+      "cardinality": "one-to-many",
+      "direction": "parent-child",
+      "label": "runs",
+      "inverse_label": "edition of"
+    },
+    {
+      "id": "rel_0010",
+      "from": "obj_sponsor",
+      "to": "obj_award_edition",
+      "type": "sponsors",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "sponsors",
+      "inverse_label": "sponsored by"
+    },
+    {
+      "id": "rel_0011",
+      "from": "obj_article",
+      "to": "obj_solution",
+      "type": "references",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "promotes",
+      "inverse_label": "promoted by"
+    },
+    {
+      "id": "rel_0012",
+      "from": "obj_event",
+      "to": "obj_award_edition",
+      "type": "hosts",
+      "cardinality": "one-to-one",
+      "direction": "reference",
+      "label": "celebrates",
+      "inverse_label": "celebrated at"
+    },
+    {
+      "id": "rel_0013",
+      "from": "obj_booking",
+      "to": "obj_event",
+      "type": "books",
+      "cardinality": "many-to-one",
+      "direction": "reference",
+      "label": "registers for",
+      "inverse_label": "has registration"
+    },
+    {
+      "id": "rel_0014",
+      "from": "obj_faq",
+      "to": "obj_solution",
+      "type": "belongs_to",
+      "cardinality": "many-to-one",
+      "direction": "parent-child",
+      "label": "answers about",
+      "inverse_label": "has FAQ"
+    },
+    {
+      "id": "rel_0015",
+      "from": "obj_audience_persona",
+      "to": "obj_solution",
+      "type": "targets",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "targets",
+      "inverse_label": "targeted by"
+    },
+    {
+      "id": "rel_0016",
+      "from": "obj_policy_legal",
+      "to": "obj_booking",
+      "type": "governs",
+      "cardinality": "one-to-many",
+      "direction": "reference",
+      "label": "governs",
+      "inverse_label": "governed by"
+    }
+  ]
+}
