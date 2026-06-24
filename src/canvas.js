@@ -111,12 +111,12 @@ function bfsDepths(startId) {
   return depth;
 }
 
-// gen 0 (selected) & gen 1 = 100%; gen 2 = 50%; gen 3 = 25%; halving, floor 10%.
+// gen 0 (selected) & gen 1 = 100%; gen 2 = 75%; gen 3 = 50%; -25% per gen, floor 10%.
 // Unreachable (null depth) = floor.
 function alphaForDepth(d) {
   if (d == null) return 0.1;
   if (d <= 1) return 1;
-  return Math.max(0.1, 0.5 ** (d - 1));
+  return Math.max(0.1, 1 - (d - 1) * 0.25);
 }
 
 function shadeFor(id) {

@@ -40,7 +40,7 @@
 - When on and a node is selected, fade every node by its **graph distance** (BFS hops)
   from the selected node, treating relationships as **undirected**:
   - gen 0 (selected) & gen 1 (directly connected): 100% opacity
-  - gen 2: 50% · gen 3: 25% · halving outward, floored at 10%
+  - gen 2: 75% · gen 3: 50% · −25% per generation outward, floored at 10%
   - unconnected objects: 10%
 - Edges fade to the **minimum** opacity of their two endpoints.
 - BFS runs over **visible** nodes only (respects the tier filter).
