@@ -2,10 +2,10 @@
   "meta": {
     "name": "Door4 Object Model",
     "client": "Door4 Limited",
-    "version": "0.3.0",
+    "version": "0.5.0",
     "created": "2026-06-24",
     "updated": "2026-06-24",
-    "notes": "Rebuilt from Door4 IA audit spreadsheet (v0.1, Darren Taylor). 8 objects, 14 relationships."
+    "notes": "Added obj_partnership_model and obj_technology_platform. Added client_type attr to obj_client. Voices added to Insight series enum. 12 objects, 22 relationships."
   },
   "objects": [
     {
@@ -53,15 +53,14 @@
       "description": "A proof-point story showing how Door4 delivered measurable outcomes for a client.",
       "colour": "#059669",
       "attributes": [
-        { "id": "attr_0001", "name": "Client name", "type": "string", "required": true },
+        { "id": "attr_0001", "name": "Title", "type": "string", "required": true },
         { "id": "attr_0002", "name": "Slug", "type": "string", "required": true },
         { "id": "attr_0003", "name": "Challenge", "type": "text", "required": true },
         { "id": "attr_0004", "name": "Approach", "type": "text", "required": true },
         { "id": "attr_0005", "name": "Results", "type": "text", "required": true },
-        { "id": "attr_0006", "name": "Sector", "type": "string", "required": false },
-        { "id": "attr_0007", "name": "Year", "type": "number", "required": false },
-        { "id": "attr_0008", "name": "Featured image", "type": "image", "required": false },
-        { "id": "attr_0009", "name": "Permission granted", "type": "boolean", "required": true }
+        { "id": "attr_0006", "name": "Year", "type": "number", "required": false },
+        { "id": "attr_0007", "name": "Featured image", "type": "image", "required": false },
+        { "id": "attr_0008", "name": "Permission granted", "type": "boolean", "required": true }
       ],
       "ctas": [
         { "id": "cta_0001", "label": "Read case study", "type": "read" },
@@ -91,7 +90,7 @@
         { "id": "attr_0007", "name": "Topic tags", "type": "string", "required": false },
         { "id": "attr_0008", "name": "Sector relevance", "type": "string", "required": false },
         { "id": "attr_0009", "name": "Featured image", "type": "image", "required": false },
-        { "id": "attr_0010", "name": "Series", "type": "enum", "required": false, "notes": "Ask the Expert | Let's Talk | Decoding Digital | AI Lab | none" }
+        { "id": "attr_0010", "name": "Series", "type": "enum", "required": false, "notes": "Ask the Expert | Let's Talk | Decoding Digital | AI Lab | Voices | none" }
       ],
       "ctas": [
         { "id": "cta_0001", "label": "Read", "type": "read" },
@@ -235,6 +234,104 @@
         "Free Conversion Review (Convert)",
         "Free Performance Review for Home & Garden Brands (General)"
       ]
+    },
+    {
+      "id": "obj_client",
+      "name": "Client",
+      "tier": "Trust",
+      "priority": "P0",
+      "description": "An organisation Door4 has delivered services to. Anchor record — Case Studies, Quotes, and service delivery all hang off Client.",
+      "colour": "#059669",
+      "attributes": [
+        { "id": "attr_0001", "name": "Name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Slug", "type": "string", "required": true },
+        { "id": "attr_0003", "name": "Website", "type": "url", "required": false },
+        { "id": "attr_0004", "name": "Logo", "type": "image", "required": false },
+        { "id": "attr_0005", "name": "Relationship start", "type": "date", "required": false },
+        { "id": "attr_0006", "name": "Active", "type": "boolean", "required": true },
+        { "id": "attr_0007", "name": "NDA in place", "type": "boolean", "required": false, "notes": "If true, suppress from public surfaces unless explicitly permitted" },
+        { "id": "attr_0008", "name": "Client type", "type": "enum", "required": false, "notes": "B2B | B2C | e-commerce | lead-gen | mixed" }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "View case study", "type": "navigate" }
+      ],
+      "examples": [
+        "Ego Power",
+        "Instagroup",
+        "Empress Mills",
+        "Forbes Home"
+      ]
+    },
+    {
+      "id": "obj_client_quote",
+      "name": "Client Quote",
+      "tier": "Trust",
+      "priority": "P1",
+      "description": "A testimonial or endorsement from a client contact. Decoupled from Case Study — can surface on service pages, sector pages, homepage, or anywhere trust is needed.",
+      "colour": "#059669",
+      "attributes": [
+        { "id": "attr_0001", "name": "Quote text", "type": "text", "required": true },
+        { "id": "attr_0002", "name": "Permission granted", "type": "boolean", "required": true },
+        { "id": "attr_0003", "name": "Date given", "type": "date", "required": false },
+        { "id": "attr_0004", "name": "Surfaces", "type": "enum", "required": false, "notes": "homepage | service-page | sector-page | case-study | any" },
+        { "id": "attr_0005", "name": "Featured", "type": "boolean", "required": false }
+      ],
+      "ctas": [],
+      "examples": [
+        "\"Door4 transformed our PPC performance\" — Marketing Director, Ego Power",
+        "\"The team feel like an extension of ours\" — MD, Empress Mills"
+      ]
+    },
+    {
+      "id": "obj_partnership_model",
+      "name": "Partnership Model",
+      "tier": "Core",
+      "priority": "P1",
+      "description": "The engagement model framing how Door4 works with a client — Full Service Partner, Acquisition Partner, or Technical Partner. Distinct from Service; describes the relationship structure, not the capability delivered.",
+      "colour": "#2563EB",
+      "attributes": [
+        { "id": "attr_0001", "name": "Name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Slug", "type": "string", "required": true },
+        { "id": "attr_0003", "name": "Tagline", "type": "string", "required": false },
+        { "id": "attr_0004", "name": "Description", "type": "text", "required": true },
+        { "id": "attr_0005", "name": "Best for", "type": "text", "required": false, "notes": "Describes the client profile this model suits" }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "Learn more", "type": "read" },
+        { "id": "cta_0002", "label": "Start your journey", "type": "book" }
+      ],
+      "examples": [
+        "Full Service Partner — one accountable team for acquisition, conversion, and tech",
+        "Acquisition Partner — SEO, paid, content, analytics integrated for commercial growth",
+        "Technical Partner — web design, development, hosting, and integrations"
+      ]
+    },
+    {
+      "id": "obj_technology_platform",
+      "name": "Technology Platform",
+      "tier": "Trust",
+      "priority": "P2",
+      "description": "A third-party platform or technology Door4 is accredited in or regularly delivers work on. Appears as badges on service pages and case studies — signals credibility and specialism.",
+      "colour": "#059669",
+      "attributes": [
+        { "id": "attr_0001", "name": "Name", "type": "string", "required": true },
+        { "id": "attr_0002", "name": "Logo", "type": "image", "required": false },
+        { "id": "attr_0003", "name": "URL", "type": "url", "required": false },
+        { "id": "attr_0004", "name": "Platform type", "type": "enum", "required": true, "notes": "e-commerce | cms | analytics | advertising | crm | other" },
+        { "id": "attr_0005", "name": "Accreditation level", "type": "string", "required": false, "notes": "e.g. Partner, Certified, Premier — or blank if no formal accreditation" },
+        { "id": "attr_0006", "name": "Active", "type": "boolean", "required": true }
+      ],
+      "ctas": [
+        { "id": "cta_0001", "label": "See related work", "type": "navigate" }
+      ],
+      "examples": [
+        "Adobe Commerce (e-commerce)",
+        "Shopify (e-commerce)",
+        "WooCommerce (e-commerce)",
+        "Google Ads (advertising)",
+        "Meta Ads (advertising)",
+        "GA4 / Google Analytics (analytics)"
+      ]
     }
   ],
   "relationships": [
@@ -377,6 +474,86 @@
       "direction": "reference",
       "label": "specialises in",
       "inverse_label": "delivered by"
+    },
+    {
+      "id": "rel_0015",
+      "from": "obj_case_study",
+      "to": "obj_client",
+      "type": "belongs_to",
+      "cardinality": "many-to-one",
+      "direction": "parent-child",
+      "label": "about",
+      "inverse_label": "has case study"
+    },
+    {
+      "id": "rel_0016",
+      "from": "obj_client",
+      "to": "obj_service",
+      "type": "delivered_to",
+      "cardinality": "many-to-many",
+      "direction": "peer",
+      "label": "received service",
+      "inverse_label": "delivered to"
+    },
+    {
+      "id": "rel_0017",
+      "from": "obj_client",
+      "to": "obj_sector",
+      "type": "operates_in",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "operates in",
+      "inverse_label": "includes client"
+    },
+    {
+      "id": "rel_0018",
+      "from": "obj_client_quote",
+      "to": "obj_person",
+      "type": "attributed_to",
+      "cardinality": "many-to-one",
+      "direction": "reference",
+      "label": "attributed to",
+      "inverse_label": "gave quote"
+    },
+    {
+      "id": "rel_0019",
+      "from": "obj_client_quote",
+      "to": "obj_client",
+      "type": "from",
+      "cardinality": "many-to-one",
+      "direction": "parent-child",
+      "label": "from",
+      "inverse_label": "has quotes"
+    },
+    {
+      "id": "rel_0020",
+      "from": "obj_client",
+      "to": "obj_partnership_model",
+      "type": "engaged_under",
+      "cardinality": "many-to-one",
+      "direction": "reference",
+      "label": "engaged under",
+      "inverse_label": "used by"
+    },
+    {
+      "id": "rel_0021",
+      "from": "obj_service",
+      "to": "obj_technology_platform",
+      "type": "uses",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "delivered via",
+      "inverse_label": "used in"
+    },
+    {
+      "id": "rel_0022",
+      "from": "obj_case_study",
+      "to": "obj_technology_platform",
+      "type": "features",
+      "cardinality": "many-to-many",
+      "direction": "reference",
+      "label": "built on",
+      "inverse_label": "featured in"
     }
   ]
 }

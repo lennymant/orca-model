@@ -24,8 +24,10 @@ let links = [];
 let selectedId = null;
 let hiddenTiers = new Set();
 let showEdgeLabels = true;
+let shaderOn = false;       // "shade by connection generation" toggle
+let shadeAlpha = null;      // Map<id, alpha> when shading active, else null
 const view = { x: 0, y: 0, k: 1 };
-const drag = { node: null, panning: false, lastX: 0, lastY: 0 };
+const drag = { node: null, panning: false, moved: false, lastX: 0, lastY: 0 };
 
 export function init(canvasEl, model) {
   canvas = canvasEl;
@@ -42,6 +44,7 @@ export function init(canvasEl, model) {
 export function update() {
   buildGraph();
   startSimulation(0.6);
+  computeShade();
 }
 
 export function getSelectedId() {
@@ -50,7 +53,7 @@ export function getSelectedId() {
 
 export function setHighlight(id) {
   selectedId = id;
-  render();
+  computeShade();
 }
 
 // --- Graph build + simulation ------------------------------------------------
@@ -77,6 +80,49 @@ function startSimulation(alpha) {
     .on('tick', render);
 }
 
+// --- Connection-generation shading -------------------------------------------
+
+// BFS graph distance from the selected node (edges treated as undirected),
+// mapped to an opacity per node. Recomputed on select / toggle / model change.
+function computeShade() {
+  const active = shaderOn && selectedId && nodes.some((n) => n.id === selectedId);
+  if (!active) { shadeAlpha = null; render(); return; }
+  const depth = bfsDepths(selectedId);
+  shadeAlpha = new Map(nodes.map((n) => [n.id, alphaForDepth(depth.get(n.id))]));
+  render();
+}
+
+function bfsDepths(startId) {
+  const adj = new Map(nodes.map((n) => [n.id, []]));
+  state.getRelationships().forEach((r) => {
+    if (adj.has(r.from) && adj.has(r.to)) {
+      adj.get(r.from).push(r.to);
+      adj.get(r.to).push(r.from);
+    }
+  });
+  const depth = new Map([[startId, 0]]);
+  const queue = [startId];
+  while (queue.length) {
+    const cur = queue.shift();
+    adj.get(cur).forEach((nb) => {
+      if (!depth.has(nb)) { depth.set(nb, depth.get(cur) + 1); queue.push(nb); }
+    });
+  }
+  return depth;
+}
+
+// gen 0 (selected) & gen 1 = 100%; gen 2 = 50%; gen 3 = 25%; halving, floor 10%.
+// Unreachable (null depth) = floor.
+function alphaForDepth(d) {
+  if (d == null) return 0.1;
+  if (d <= 1) return 1;
+  return Math.max(0.1, 0.5 ** (d - 1));
+}
+
+function shadeFor(id) {
+  return shadeAlpha ? (shadeAlpha.get(id) ?? 0.1) : 1;
+}
+
 // --- Render ------------------------------------------------------------------
 
 function render() {
@@ -92,6 +138,7 @@ function drawEdge(l) {
   const a = nodeAt(l.source);
   const b = nodeAt(l.target);
   if (!a || !b) return;
+  ctx.globalAlpha = Math.min(shadeFor(a.id), shadeFor(b.id));
   applyEdgeStyle(l.ref.direction);
   ctx.beginPath();
   ctx.moveTo(a.x, a.y);
@@ -100,6 +147,7 @@ function drawEdge(l) {
   ctx.setLineDash([]);
   drawArrow(a, b);
   if (showEdgeLabels) drawEdgeLabel(l.ref.label, a, b);
+  ctx.globalAlpha = 1;
 }
 
 function applyEdgeStyle(direction) {
@@ -139,6 +187,7 @@ function drawEdgeLabel(label, a, b) {
 
 function drawNode(n) {
   const colour = n.ref.colour || '#2563EB';
+  ctx.globalAlpha = shadeFor(n.id);
   roundRect(n.x - NODE_W / 2, n.y - NODE_H / 2, NODE_W, NODE_H, RADIUS);
   ctx.fillStyle = hexA(colour, n.id === selectedId ? 1 : 0.9);
   ctx.fill();
@@ -151,6 +200,7 @@ function drawNode(n) {
   ctx.textBaseline = 'middle';
   ctx.fillText(truncate(n.ref.name, 18), n.x, n.y);
   drawTierBadge(n);
+  ctx.globalAlpha = 1;
 }
 
 function drawTierBadge(n) {
@@ -197,6 +247,7 @@ function onDown(e) {
     sim.alphaTarget(0.1).restart();
   } else {
     drag.panning = true;
+    drag.moved = false;
     drag.lastX = e.clientX;
     drag.lastY = e.clientY;
   }
@@ -208,6 +259,7 @@ function onMove(e) {
     drag.node.fx = p.x;
     drag.node.fy = p.y;
   } else if (drag.panning) {
+    drag.moved = true;
     view.x += e.clientX - drag.lastX;
     view.y += e.clientY - drag.lastY;
     drag.lastX = e.clientX;
@@ -220,6 +272,7 @@ function onMove(e) {
 
 function onUp() {
   if (drag.node) sim.alphaTarget(0); // leave fx/fy set → node stays pinned
+  else if (drag.panning && !drag.moved) deselect(); // clean click on empty bg
   drag.node = null;
   drag.panning = false;
 }
@@ -244,7 +297,14 @@ function selectNode(id) {
   selectedId = id;
   state.select(id);
   state.emit('node:selected', { id });
-  render();
+  computeShade();
+}
+
+function deselect() {
+  selectedId = null;
+  state.select(null);
+  state.emit('node:selected', { id: null });
+  computeShade();
 }
 
 // --- Hover tooltip -----------------------------------------------------------
@@ -273,6 +333,7 @@ function buildControls() {
     ctrlBtn('Fit', fitAll),
     ctrlBtn('Labels', () => { showEdgeLabels = !showEdgeLabels; render(); }),
   );
+  bar.appendChild(shaderToggle());
   bar.appendChild(tierFilter());
   host.appendChild(bar);
   const tip = document.createElement('div');
@@ -280,6 +341,19 @@ function buildControls() {
   tip.className = 'canvas-tooltip';
   tip.hidden = true;
   host.appendChild(tip);
+}
+
+// Checkbox: when on, clicking a node fades others by connection generation.
+function shaderToggle() {
+  const label = document.createElement('label');
+  label.className = 'canvas-shader-toggle';
+  label.title = 'Fade objects by connection generation from the selected object';
+  const box = document.createElement('input');
+  box.type = 'checkbox';
+  box.checked = shaderOn;
+  box.onchange = () => { shaderOn = box.checked; computeShade(); };
+  label.append(box, document.createTextNode('Shade by connection'));
+  return label;
 }
 
 function tierFilter() {

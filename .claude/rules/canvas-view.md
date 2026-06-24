@@ -33,11 +33,24 @@
 - **Drag node**: drag node to reposition; pin node position after drag (fix in simulation)
 - **Hover node**: show tooltip with object name + tier + attribute count
 - **Double-click node**: emit `node:open-crud` event → switches to CRUD view for that object
+- **Click empty background**: deselect (clears any connection shading); a drag pans instead
+
+## Connection-generation shading ("Shade by connection")
+- Checkbox in the canvas controls; off by default.
+- When on and a node is selected, fade every node by its **graph distance** (BFS hops)
+  from the selected node, treating relationships as **undirected**:
+  - gen 0 (selected) & gen 1 (directly connected): 100% opacity
+  - gen 2: 50% · gen 3: 25% · halving outward, floored at 10%
+  - unconnected objects: 10%
+- Edges fade to the **minimum** opacity of their two endpoints.
+- BFS runs over **visible** nodes only (respects the tier filter).
+- Recomputed on select, deselect, toggle, and model change. Implemented via canvas `globalAlpha`.
 
 ## Canvas Controls (render as HTML overlay, not on canvas)
 - Zoom in / Zoom out buttons
 - Fit all (reset transform to show all nodes)
 - Toggle labels (edge labels on/off)
+- Shade by connection (checkbox — see shading section above)
 - Tier filter (multi-select checkboxes: Core / Trust / Brand / Marketing / Conversion / Compliance)
   - Hidden objects are removed from simulation; their edges are also hidden
 
